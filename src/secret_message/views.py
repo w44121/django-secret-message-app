@@ -3,13 +3,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from secret_message.models import SecrteMessage
 from secret_message.serializers import SecrteMessageSerializer
+from secret_message.tasks import dellete_secret_massage
 
 
 class SecrteMessageCreateView(APIView):
     def post(self, request):
         serializer = SecrteMessageSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save() 
+            dellete_secret_massage.delay(serializer.data["id"])
             return Response(serializer.data)
         return Response(serializer.errors)
 
@@ -21,4 +23,4 @@ class SecrteMessageDetailView(APIView):
         except SecrteMessage.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = SecrteMessageSerializer(secret_massage)
-        return Response(serializer.dara)
+        return Response(serializer.data)

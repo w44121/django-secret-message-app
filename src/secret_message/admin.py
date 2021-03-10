@@ -1,3 +1,5 @@
 from django.contrib import admin
+from secret_message.models import SecrteMessage
 
-# Register your models here.
+
+admin.site.register([SecrteMessage])

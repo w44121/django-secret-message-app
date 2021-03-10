@@ -3,6 +3,6 @@ from secret_message.views import SecrteMessageCreateView, SecrteMessageDetailVie
 
 
 urlpatterns = [
-    path("message/create/", SecrteMessageCreateView.as_view()),
+    path("message/", SecrteMessageCreateView.as_view()),
     path("message/<int:pk>", SecrteMessageDetailView.as_view()),
 ]
