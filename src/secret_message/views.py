@@ -10,8 +10,11 @@ class SecrteMessageCreateView(APIView):
     def post(self, request):
         serializer = SecrteMessageSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save() 
-            dellete_secret_massage.delay(serializer.data["id"])
+            serializer.save()
+            dellete_secret_massage.apply_async(
+                args=[serializer.data["id"]],
+                countdown=serializer.data["time_to_destroy"],
+            )
             return Response(serializer.data)
         return Response(serializer.errors)
 
