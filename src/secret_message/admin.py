@@ -1,5 +1,5 @@
 from django.contrib import admin
-from secret_message.models import SecrteMessage
+from secret_message.models import SecretMessage
 
 
-admin.site.register([SecrteMessage])
+admin.site.register([SecretMessage])

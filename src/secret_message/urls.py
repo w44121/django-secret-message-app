@@ -1,8 +1,8 @@
 from django.urls import path
-from secret_message.views import SecrteMessageCreateView, SecrteMessageDetailView
+from secret_message.views import SecretMessageCreateView, SecretMessageDetailView
 
 
 urlpatterns = [
-    path("message/", SecrteMessageCreateView.as_view()),
-    path("message/<int:pk>", SecrteMessageDetailView.as_view()),
+    path("message/", SecretMessageCreateView.as_view()),
+    path("message/<int:pk>", SecretMessageDetailView.as_view()),
 ]

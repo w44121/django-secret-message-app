@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from secret_message.models import SecrteMessage
+from secret_message.models import SecretMessage
 
 
-class SecrteMessageSerializer(serializers.ModelSerializer):
+class SecretMessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SecrteMessage
+        model = SecretMessage
         fields = "__all__"
