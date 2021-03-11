@@ -7,9 +7,6 @@ class SecretMessageHandler:
         self.message = message
         self.time_to_destroy = self.message.time_to_destroy
     
-    def is_read_limit_over(self):
-        return self.message.amount_to_read < 0
-    
     def set_dellet_task(self):
         dellete_secret_message.apply_async(
                 args=[self.message.id],

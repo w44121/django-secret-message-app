@@ -12,10 +12,6 @@ class SecretMessageCreateView(APIView):
         serializer = SecretMessageSerializer(data=request.data)
         if serializer.is_valid():
             secret_massage = serializer.save()
-            # dellete_secret_massage.apply_async(
-            #     args=[serializer.data["id"]],
-            #     countdown=serializer.data["time_to_destroy"],
-            # )
             SecretMessageHandler(secret_massage).set_dellet_task()
             return Response(serializer.data)
         return Response(serializer.errors)
@@ -27,5 +23,8 @@ class SecretMessageDetailView(APIView):
             secret_massage = SecretMessage.objects.get(pk=pk)
         except SecretMessage.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = SecretMessageSerializer(secret_massage)
-        return Response(serializer.data)
+        if not secret_massage.is_read_limit_over:
+            serializer = SecretMessageSerializer(secret_massage)
+            return Response(serializer.data)
+        secret_massage.delete()
+        return Response(status=status.HTTP_404_NOT_FOUND)
