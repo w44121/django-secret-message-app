@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+
+  web:
+    build: .
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    container_name: "django-web"
+    working_dir: /app/src
+    volumes:
+    - .:/src
+    expose: 
+    - "6379"
+    ports: 
+    - "8000:8000"
+    depends_on:
+    - redis
+    - db
+
+  redis:
+    image: "redis:alpine"
+    container_name: 'redis'
+    hostname: redis
+
+  celery:
+    restart: always
+    build: .
+    container_name: 'celery'
+    command: celery -A app worker -B -E -l INFO
+    working_dir: /app/src
+    volumes:
+    - .:/src
+    depends_on:
+      - web
+      - redis
+      - db
