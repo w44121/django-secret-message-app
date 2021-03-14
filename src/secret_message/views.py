@@ -13,7 +13,7 @@ class SecretMessageCreateView(APIView):
         if serializer.is_valid():
             secret_massage = serializer.save()
             SecretMessageHandler(secret_massage).set_dellet_task()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 

@@ -5,8 +5,8 @@ from django.conf import settings
 class SecretMessage(models.Model):
     text = models.TextField()
     create_time = models.DateTimeField(auto_now_add=True)
-    time_to_destroy = models.PositiveSmallIntegerField()
-    amount_to_read = models.PositiveIntegerField(default=1)
+    time_to_destroy = models.IntegerField()
+    amount_to_read = models.IntegerField(default=10)
 
     def __str__(self):
         return f"{self.text}, time to destroy: {self.time_to_destroy}"
